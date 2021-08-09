@@ -18,8 +18,8 @@ import java.io.IOException;
 class PgJsonObjectJsonComponent {
     static class Deserializer extends JsonDeserializer<Json> {
         @Override
-        public Json deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-            var value = ctxt.readTree(p);
+        public Json deserialize(JsonParser p, DeserializationContext ctx) throws IOException {
+            var value = ctx.readTree(p);
             log.info("read json value :{}", value);
             return Json.of(value.toString());
         }

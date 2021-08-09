@@ -12,17 +12,17 @@ import java.util.Map;
 
 public class PgConnectionFactories {
     static ConnectionFactory fromUrl() {
-        return ConnectionFactories.get("r2dbc:postgres://temporal:temporal@localhost/blogdb");
+        return ConnectionFactories.get("r2dbc:postgres://user:password@localhost/blogdb");
     }
 
     static ConnectionFactory fromOptions() {
         var options = ConnectionFactoryOptions.builder()
                 .option(ConnectionFactoryOptions.HOST, "localhost")
                 .option(ConnectionFactoryOptions.DATABASE, "blogdb")
-                .option(ConnectionFactoryOptions.USER, "temporal")
-                .option(ConnectionFactoryOptions.PASSWORD, "temporal")
+                .option(ConnectionFactoryOptions.USER, "user")
+                .option(ConnectionFactoryOptions.PASSWORD, "password")
                 .option(ConnectionFactoryOptions.DRIVER, "postgresql")
-                .option(PostgresqlConnectionFactoryProvider.OPTIONS, Map.of("lock_timeout", "30s"))
+                .option(PostgresqlConnectionFactoryProvider.OPTIONS, Map.of("lock_timeout", "30s", "statement_timeout", "60s"))
                 .build();
         return ConnectionFactories.get(options);
     }
@@ -32,9 +32,9 @@ public class PgConnectionFactories {
                 PostgresqlConnectionConfiguration.builder()
                         .host("localhost")
                         .database("blogdb")
-                        .username("temporal")
-                        .password("temporal")
-                        //.codecRegistrar(EnumCodec.builder().withEnum("post_status", Post.Status.class).build())
+                        .username("user")
+                        .password("password")
+                        .codecRegistrar(EnumCodec.builder().withEnum("post_status", Post.Status.class).build())
                         .build()
         );
     }
